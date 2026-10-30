@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarePoint | Hospital Appointments</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="CarePoint home">
+        <span class="brand-mark">+</span>
+        <span><strong>CarePoint</strong><small>Hospital appointments</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="dashboard"><span>▦</span> Overview</button>
+        <button class="nav-btn" data-view="doctors"><span>✚</span> Find a doctor</button>
+        <button class="nav-btn" data-view="appointments"><span>▣</span> Appointments</button>
+        <button class="nav-btn" data-view="history"><span>◷</span> Appointment history</button>
+        <button class="nav-btn" data-view="schedules"><span>▤</span> Schedules</button>
+        <button class="nav-btn" data-view="manage"><span>⚙</span> Manage doctors</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">?</div>
+          <strong>Need assistance?</strong>
+          <p>Contact the hospital reception for help with your booking.</p>
+          <a href="mailto:reception@carepoint.example">Contact reception</a>
+        </div>
+        <div class="profile-mini">
+          <div class="avatar" id="sideAvatar">G</div>
+          <div class="profile-copy"><strong id="sideName">Guest patient</strong><small id="sideRole">Not signed in</small></div>
+          <button class="icon-btn" id="logoutBtn" title="Sign out" aria-label="Sign out">↪</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="todayLabel">CAREPOINT / PATIENT PORTAL</p>
+          <h1 id="pageTitle">Good day</h1>
+        </div>
+        <div class="top-actions">
+          <span class="status-pill"><i></i> Online services</span>
+          <button class="btn btn-outline" id="authBtn">Sign in / Register</button>
+        </div>
+      </header>
+
+      <section class="view active" id="view-dashboard">
+        <div class="welcome-panel">
+          <div>
+            <p class="eyebrow light">YOUR HEALTH, MADE SIMPLER</p>
+            <h2>Appointments made<br>easy.</h2>
+            <p>Find the right specialist, choose a time that works for you, and keep your care organised.</p>
+            <button class="btn btn-light" data-go="doctors">Find a doctor <span>→</span></button>
+          </div>
+          <div class="welcome-art" aria-hidden="true">
+            <div class="art-circle circle-one"></div><div class="art-circle circle-two"></div>
+            <div class="art-card"><span class="art-cross">+</span><div><b>Care comes first</b><small>Here for every step</small></div></div>
+            <div class="art-calendar"><b>12</b><small>JUN</small><span>✓</span></div>
+          </div>
+        </div>
+        <div class="section-heading">
+          <div><p class="eyebrow">AT A GLANCE</p><h2>Your appointment summary</h2></div>
+          <button class="text-btn" data-go="appointments">View appointments →</button>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-icon blue">▣</div><div><span>Upcoming appointments</span><strong id="upcomingCount">0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon green">✓</div><div><span>Completed visits</span><strong id="completedCount">0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon peach">✚</div><div><span>Available doctors</span><strong id="doctorCount">0</strong></div></article>
+        </div>
+        <div class="section-heading compact">
+          <div><p class="eyebrow">NEXT ON YOUR CALENDAR</p><h2>Upcoming visits</h2></div>
+        </div>
+        <div id="dashboardAppointments" class="appointment-list"></div>
+      </section>
+
+      <section class="view" id="view-doctors">
+        <div class="section-heading page-section">
+          <div><p class="eyebrow">OUR MEDICAL TEAM</p><h2>Find a doctor</h2><p class="muted">Browse specialists and choose the care you need.</p></div>
+        </div>
+        <div class="filter-bar">
+          <label class="search-box"><span>⌕</span><input id="doctorSearch" type="search" placeholder="Search by doctor or specialty..."></label>
+          <select id="specialtyFilter" aria-label="Filter by specialty"><option value="">All specialties</option></select>
+        </div>
+        <div class="doctor-grid" id="doctorGrid"></div>
+      </section>
+
+      <section class="view" id="view-appointments">
+        <div class="section-heading page-section">
+          <div><p class="eyebrow">YOUR BOOKINGS</p><h2>Appointments</h2><p class="muted">Review or cancel your upcoming appointments.</p></div>
+          <button class="btn btn-primary" data-go="doctors">＋ Book appointment</button>
+        </div>
+        <div id="appointmentsList" class="appointment-list"></div>
+      </section>
+
+      <section class="view" id="view-history">
+        <div class="section-heading page-section">
+          <div><p class="eyebrow">YOUR VISITS</p><h2>Appointment history</h2><p class="muted">A record of your completed and cancelled appointments.</p></div>
+        </div>
+        <div class="filter-bar history-filter">
+          <label class="search-box"><span>⌕</span><input id="historySearch" type="search" placeholder="Search doctor or specialty..."></label>
+          <select id="historyFilter" aria-label="Filter appointment history"><option value="">All records</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></select>
+        </div>
+        <div id="historyList" class="appointment-list"></div>
+      </section>
+
+      <section class="view" id="view-schedules">
+        <div class="section-heading page-section">
+          <div><p class="eyebrow">AVAILABILITY</p><h2>Doctor schedules</h2><p class="muted">See the days and time slots offered by each doctor.</p></div>
+        </div>
+        <div class="filter-bar">
+          <label class="search-box"><span>⌕</span><input id="scheduleSearch" type="search" placeholder="Search doctor..."></label>
+        </div>
+        <div id="scheduleList" class="schedule-list"></div>
+      </section>
+
+      <section class="view" id="view-manage">
+        <div class="section-heading page-section">
+          <div><p class="eyebrow">ADMINISTRATION</p><h2>Manage doctors</h2><p class="muted">Add, update or remove doctor profiles and availability.</p></div>
+          <button class="btn btn-primary" id="addDoctorBtn">＋ Add doctor</button>
+        </div>
+        <div class="notice"><strong>Demo management area</strong><span>Changes are saved in this browser on this device.</span></div>
+        <div id="manageDoctorList" class="manage-list"></div>
+      </section>
+
+      <footer class="footer">CarePoint · A simple appointment portal <span>For demonstration use</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
